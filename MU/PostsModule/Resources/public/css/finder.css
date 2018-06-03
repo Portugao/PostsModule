@@ -1,0 +1,36 @@
+body {
+    background-color: #ddd;
+    margin: 10px;
+    text-align: left;
+}
+
+#mupostsmoduleItemContainer {
+    background-color: #eee;
+    height: 300px;
+    overflow: auto;
+    padding: 5px;
+}
+
+#mupostsmoduleItemContainer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#mupostsmoduleItemContainer a {
+    color: #000;
+    margin: 0.1em 0.2em;
+    text-decoration: underline;
+}
+#mupostsmoduleItemContainer a:hover,
+#mupostsmoduleItemContainer a:focus,
+#mupostsmoduleItemContainer a:active {
+    color: #900;
+    text-decoration: none;
+}
+
+.mupostsmodule-finderform fieldset,
+.mupostsmodule-finderform fieldset legend {
+    background-color: #fff;
+    border: none;
+}

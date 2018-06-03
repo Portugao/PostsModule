@@ -1,0 +1,7 @@
+{# purpose of this template: contents view json view #}
+[
+{% for content in items %}
+    {% if not loop.first %},{% endif %}
+    {{ content.toArray()|json_encode() }}
+{% endfor %}
+]

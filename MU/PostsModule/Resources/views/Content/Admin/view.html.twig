@@ -1,0 +1,228 @@
+{# purpose of this template: contents admin list view #}
+{% extends 'MUPostsModule::adminBase.html.twig' %}
+{% block title own ? __('My contents') : __('Contents list') %}
+{% block admin_page_icon 'list-alt' %}
+{% block content %}
+<div class="mupostsmodule-content mupostsmodule-view">
+
+    {{ block('page_nav_links') }}
+
+    {{ include('@MUPostsModule/Content/Admin/viewQuickNav.html.twig') }}{# see template file for available options #}
+
+    {% if routeArea == 'admin' %}
+    <form action="{{ path('mupostsmodule_content_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="contentsViewForm" class="form-horizontal" role="form">
+        <div>
+    {% endif %}
+        <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+            <colgroup>
+                {% if routeArea == 'admin' %}
+                    <col id="cSelect" />
+                {% endif %}
+                <col id="cItemActionsStart" />
+                {% if routeArea == 'admin' %}
+                <col id="cWorkflowState" />
+                {% endif %}
+                <col id="cTitle" />
+                <col id="cDescriptionForGoogle" />
+                <col id="cHikingTour" />
+                <col id="cTarget" />
+                <col id="cStartText" />
+                <col id="cFirstMainText" />
+                <col id="cSecondMainText" />
+                <col id="cExperienceOfNature" />
+                <col id="cLevelOfDifficulty" />
+                <col id="cRequiredFitness" />
+                <col id="cOther" />
+                <col id="cEndDate" />
+            </colgroup>
+            <thead>
+            <tr>
+                {% if routeArea == 'admin' %}
+                    <th id="hSelect" scope="col" class="text-center z-w02">
+                        <input type="checkbox" class="muposts-mass-toggle" />
+                    </th>
+                {% endif %}
+                <th id="hItemActionsStart" scope="col" class="unsorted z-w02">{{ __('Actions') }}</th>
+                {% if routeArea == 'admin' %}
+                <th id="hWorkflowState" scope="col" class="text-left">
+                    <a href="{{ sort.workflowState.url }}" title="{{ __f('Sort by %s', {'%s': 'state'}) }}" class="{{ sort.workflowState.class }}">{{ __('State') }}</a>
+                </th>
+                {% endif %}
+                <th id="hTitle" scope="col" class="text-left">
+                    <a href="{{ sort.title.url }}" title="{{ __f('Sort by %s', {'%s': 'title'}) }}" class="{{ sort.title.class }}">{{ __('Title') }}</a>
+                </th>
+                <th id="hDescriptionForGoogle" scope="col" class="text-left">
+                    <a href="{{ sort.descriptionForGoogle.url }}" title="{{ __f('Sort by %s', {'%s': 'description for google'}) }}" class="{{ sort.descriptionForGoogle.class }}">{{ __('Description for google') }}</a>
+                </th>
+                <th id="hHikingTour" scope="col" class="text-center">
+                    <a href="{{ sort.hikingTour.url }}" title="{{ __f('Sort by %s', {'%s': 'hiking tour'}) }}" class="{{ sort.hikingTour.class }}">{{ __('Hiking tour') }}</a>
+                </th>
+                <th id="hTarget" scope="col" class="text-left">
+                    <a href="{{ sort.target.url }}" title="{{ __f('Sort by %s', {'%s': 'target'}) }}" class="{{ sort.target.class }}">{{ __('Target') }}</a>
+                </th>
+                <th id="hStartText" scope="col" class="text-left">
+                    <a href="{{ sort.startText.url }}" title="{{ __f('Sort by %s', {'%s': 'start text'}) }}" class="{{ sort.startText.class }}">{{ __('Start text') }}</a>
+                </th>
+                <th id="hFirstMainText" scope="col" class="text-left">
+                    <a href="{{ sort.firstMainText.url }}" title="{{ __f('Sort by %s', {'%s': 'first main text'}) }}" class="{{ sort.firstMainText.class }}">{{ __('First main text') }}</a>
+                </th>
+                <th id="hSecondMainText" scope="col" class="text-left">
+                    <a href="{{ sort.secondMainText.url }}" title="{{ __f('Sort by %s', {'%s': 'second main text'}) }}" class="{{ sort.secondMainText.class }}">{{ __('Second main text') }}</a>
+                </th>
+                <th id="hExperienceOfNature" scope="col" class="text-left">
+                    <a href="{{ sort.experienceOfNature.url }}" title="{{ __f('Sort by %s', {'%s': 'experience of nature'}) }}" class="{{ sort.experienceOfNature.class }}">{{ __('Experience of nature') }}</a>
+                </th>
+                <th id="hLevelOfDifficulty" scope="col" class="text-left">
+                    <a href="{{ sort.levelOfDifficulty.url }}" title="{{ __f('Sort by %s', {'%s': 'level of difficulty'}) }}" class="{{ sort.levelOfDifficulty.class }}">{{ __('Level of difficulty') }}</a>
+                </th>
+                <th id="hRequiredFitness" scope="col" class="text-left">
+                    <a href="{{ sort.requiredFitness.url }}" title="{{ __f('Sort by %s', {'%s': 'required fitness'}) }}" class="{{ sort.requiredFitness.class }}">{{ __('Required fitness') }}</a>
+                </th>
+                <th id="hOther" scope="col" class="text-left">
+                    <a href="{{ sort.other.url }}" title="{{ __f('Sort by %s', {'%s': 'other'}) }}" class="{{ sort.other.class }}">{{ __('Other') }}</a>
+                </th>
+                <th id="hEndDate" scope="col" class="text-left">
+                    <a href="{{ sort.endDate.url }}" title="{{ __f('Sort by %s', {'%s': 'end date'}) }}" class="{{ sort.endDate.class }}">{{ __('End date') }}</a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+        
+        {% for content in items %}
+            <tr>
+                {% if routeArea == 'admin' %}
+                    <td headers="hSelect" class="text-center z-w02">
+                        <input type="checkbox" name="items[]" value="{{ content.getKey() }}" class="muposts-toggle-checkbox" />
+                    </td>
+                {% endif %}
+                <td id="itemActions{{ content.getKey() }}Start" headers="hItemActionsStart" class="actions nowrap z-w02">
+                    {% set itemActions = knp_menu_get('MUPostsModule:ItemActionsMenu:menu', [], {entity: content, area: routeArea, context: 'view'}) %}
+                    {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
+                </td>
+                {% if routeArea == 'admin' %}<td headers="hWorkflowState" class="text-left nowrap">
+                    {{ content.workflowState|mupostsmodule_objectState }}
+                </td>
+                {% endif %}<td headers="hTitle" class="text-left">
+                    <a href="{{ path('mupostsmodule_content_' ~ routeArea ~ 'display', {'slug': content.slug}) }}" title="{{ __('View detail page')|e('html_attr') }}">{{ content.title|notifyFilters('mupostsmodule.filterhook.contents')|safeHtml }}</a>
+                </td>
+                <td headers="hDescriptionForGoogle" class="text-left">
+                    {{ content.descriptionForGoogle }}
+                </td>
+                <td headers="hHikingTour" class="text-center">
+                    {% if content.hikingTour %}
+                        <i class="fa fa-check" title="{{ __('Yes') }}"></i>
+                    {% else %}
+                        <i class="fa fa-times" title="{{ __('No') }}"></i>
+                    {% endif %}
+                </td>
+                <td headers="hTarget" class="text-left">
+                    {{ content.target }}
+                </td>
+                <td headers="hStartText" class="text-left">
+                    {{ content.startText|striptags|truncate(50) }}
+                </td>
+                <td headers="hFirstMainText" class="text-left">
+                    {{ content.firstMainText|striptags|truncate(50) }}
+                </td>
+                <td headers="hSecondMainText" class="text-left">
+                    {{ content.secondMainText|striptags|truncate(50) }}
+                </td>
+                <td headers="hExperienceOfNature" class="text-left">
+                    {{ content.experienceOfNature|mupostsmodule_listEntry('content', 'experienceOfNature') }}
+                </td>
+                <td headers="hLevelOfDifficulty" class="text-left">
+                    {{ content.levelOfDifficulty|mupostsmodule_listEntry('content', 'levelOfDifficulty') }}
+                </td>
+                <td headers="hRequiredFitness" class="text-left">
+                    {{ content.requiredFitness|mupostsmodule_listEntry('content', 'requiredFitness') }}
+                </td>
+                <td headers="hOther" class="text-left">
+                    {{ content.other|mupostsmodule_listEntry('content', 'other') }}
+                </td>
+                <td headers="hEndDate" class="text-left">
+                    {% if content.endDate is not empty %}
+                        {{ content.endDate|localizeddate('medium', 'short') }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}15{% else %}14{% endif %}">
+            {{ __('No contents found.') }}
+              </td>
+            </tr>
+        {% endfor %}
+        
+            </tbody>
+        </table>
+        </div>
+        
+        {% if all != 1 and pager|default %}
+            {{ pager({rowcount: pager.amountOfItems, limit: pager.itemsPerPage, display: 'page', route: 'mupostsmodule_content_' ~ routeArea ~ 'view'}) }}
+        {% endif %}
+    {% if routeArea == 'admin' %}
+            <fieldset>
+                <label for="mUPostsModuleAction" class="col-sm-3 control-label">{{ __('With selected contents') }}</label>
+                <div class="col-sm-6">
+                    <select id="mUPostsModuleAction" name="action" class="form-control input-sm">
+                        <option value="">{{ __('Choose action') }}</option>
+                        <option value="approve" title="{{ __('Update content and approve for immediate publishing.') }}">{{ __('Approve') }}</option>
+                        <option value="unpublish" title="{{ __('Hide content temporarily.') }}">{{ __('Unpublish') }}</option>
+                        <option value="publish" title="{{ __('Make content available again.') }}">{{ __('Publish') }}</option>
+                        <option value="archive" title="{{ __('Move content into the archive.') }}">{{ __('Archive') }}</option>
+                        <option value="unarchive" title="{{ __('Move content out of the archive.') }}">{{ __('Unarchive') }}</option>
+                        <option value="delete" title="{{ __('Delete content permanently.') }}">{{ __('Delete') }}</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <input type="submit" value="{{ __('Submit') }}" class="btn btn-default btn-sm" />
+                </div>
+            </fieldset>
+        </div>
+    </form>
+    {% endif %}
+
+    {{ block('display_hooks') }}
+</div>
+{% endblock %}
+{% block page_nav_links %}
+    <p>
+        {% if canBeCreated %}
+            {% if hasPermission('MUPostsModule:Content:', '::', 'ACCESS_COMMENT') %}
+                {% set createTitle = __('Create content') %}
+                <a href="{{ path('mupostsmodule_content_' ~ routeArea ~ 'edit') }}" title="{{ createTitle|e('html_attr') }}"><i class="fa fa-plus"></i> {{ createTitle }}</a>
+            {% endif %}
+        {% endif %}
+        {% if all == 1 %}
+            {% set linkTitle = __('Back to paginated view') %}
+            {% set routeArgs = own ? {own: 1} : {} %}
+            <a href="{{ path('mupostsmodule_content_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ linkTitle }}</a>
+        {% else %}
+            {% set linkTitle = __('Show all entries') %}
+            {% set routeArgs = own ? {all: 1, own: 1} : {all: 1} %}
+            <a href="{{ path('mupostsmodule_content_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ linkTitle }}</a>
+        {% endif %}
+        {% if own == 1 %}
+            {% set linkTitle = __('Show also entries from other users') %}
+            {% set routeArgs = all ? {all: 1} : {} %}
+            <a href="{{ path('mupostsmodule_content_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-users"></i> {{ linkTitle }}</a>
+        {% else %}
+            {% set linkTitle = __('Show only own entries') %}
+            {% set routeArgs = all ? {all: 1, own: 1} : {own: 1} %}
+            <a href="{{ path('mupostsmodule_content_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-user"></i> {{ linkTitle }}</a>
+        {% endif %}
+    </p>
+{% endblock %}
+{% block display_hooks %}
+    
+    {# here you can activate calling display hooks for the view page if you need it #}
+    {# % if routeArea != 'admin' %}
+        {% set hooks = notifyDisplayHooks(eventName='mupostsmodule.ui_hooks.contents.display_view', urlObject=currentUrlObject, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endif % #}
+{% endblock %}

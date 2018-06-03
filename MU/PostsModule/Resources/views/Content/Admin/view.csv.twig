@@ -1,0 +1,10 @@
+{# purpose of this template: contents view csv view #}
+{% spaceless %}"{{ __('Title') }}";"{{ __('Description for google') }}";"{{ __('Hiking tour') }}";"{{ __('Target') }}";"{{ __('Start text') }}";"{{ __('First main text') }}";"{{ __('Second main text') }}";"{{ __('Experience of nature') }}";"{{ __('Level of difficulty') }}";"{{ __('Required fitness') }}";"{{ __('Other') }}";"{{ __('End date') }}";"{{ __('Workflow state') }}"
+{% endspaceless %}
+{% for content in items %}
+{% spaceless %}
+    "{{ content.title }}";"{{ content.descriptionForGoogle }}";"{% if not content.hikingTour %}0{% else %}1{% endif %}";"{{ content.target }}";"{{ content.startText|safeHtml }}";"{{ content.firstMainText|safeHtml }}";"{{ content.secondMainText|safeHtml }}";"{{ content.experienceOfNature|mupostsmodule_listEntry('content', 'experienceOfNature') }}";"{{ content.levelOfDifficulty|mupostsmodule_listEntry('content', 'levelOfDifficulty') }}";"{{ content.requiredFitness|mupostsmodule_listEntry('content', 'requiredFitness') }}";"{{ content.other|mupostsmodule_listEntry('content', 'other') }}";"{% if content.endDate is not empty %}
+        {{ content.endDate|localizeddate('medium', 'short') }}
+    {% endif %}";"{{ content.workflowState|mupostsmodule_objectState(false)|lower }}"
+{% endspaceless %}
+{% endfor %}

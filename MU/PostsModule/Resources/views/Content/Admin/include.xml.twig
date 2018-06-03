@@ -1,0 +1,19 @@
+{# purpose of this template: contents xml inclusion template #}
+<content id="{{ content.getId() }}" createdon="{{ content.createdDate|localizeddate('medium', 'short') }}" updatedon="{{ content.updatedDate|localizeddate('medium', 'short') }}">
+    <id>{{ content.id }}</id>
+    <title><![CDATA[{{ content.title }}]]></title>
+    <descriptionForGoogle><![CDATA[{{ content.descriptionForGoogle }}]]></descriptionForGoogle>
+    <hikingTour>{% if not content.hikingTour %}0{% else %}1{% endif %}</hikingTour>
+    <target><![CDATA[{{ content.target }}]]></target>
+    <startText><![CDATA[{{ content.startText|safeHtml }}]]></startText>
+    <firstMainText><![CDATA[{{ content.firstMainText|safeHtml }}]]></firstMainText>
+    <secondMainText><![CDATA[{{ content.secondMainText|safeHtml }}]]></secondMainText>
+    <experienceOfNature>{{ content.experienceOfNature|mupostsmodule_listEntry('content', 'experienceOfNature') }}</experienceOfNature>
+    <levelOfDifficulty>{{ content.levelOfDifficulty|mupostsmodule_listEntry('content', 'levelOfDifficulty') }}</levelOfDifficulty>
+    <requiredFitness>{{ content.requiredFitness|mupostsmodule_listEntry('content', 'requiredFitness') }}</requiredFitness>
+    <other>{{ content.other|mupostsmodule_listEntry('content', 'other') }}</other>
+    <endDate>{% if content.endDate is not empty %}
+        {{ content.endDate|localizeddate('medium', 'short') }}
+    {% endif %}</endDate>
+    <workflowState>{{ content.workflowState|mupostsmodule_objectState(false)|lower }}</workflowState>
+</content>

@@ -1,0 +1,9 @@
+{# purpose of this template: contents view xml view #}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<contents>
+{% for content in items %}
+    {{ include('@MUPostsModule/Content/include.xml.twig') }}
+{% else %}
+    <noContent />
+{% endfor %}
+</contents>

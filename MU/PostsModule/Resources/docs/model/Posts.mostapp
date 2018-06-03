@@ -1,0 +1,89 @@
+application "Posts" {
+    vendor "MU"
+    author "Michael Ueberschaer"
+    email "info@homepages-mit-zikula.de"
+    url "https://homepages-mit-zikula.de"
+    prefix "posts"
+    generateListContentType false
+    generateKmlTemplates false
+    generateIcsTemplates false
+    versionAllGeneratedFiles false
+    separateAdminTemplates true
+    generatePoweredByBacklinksIntoFooterTemplates false
+    generateTests false
+    generateTechnicalDocumentation false
+    viewActionsStyle ICON
+    displayActionsPosition BOTH
+    displayActionsStyle ICON
+    entities {
+        entity "content" leading categorisable {
+            nameMultiple "contents"
+            displayPattern "#title#"
+            workflow STANDARD
+            hasArchive true
+            hasTray true
+            fields {
+                string "title" {
+                    sluggablePosition 1
+                },
+                string "descriptionForGoogle"
+            ,
+                boolean "hikingTour" {
+                    dbName "hikingTour"
+                    defaultValue "true"
+                    mandatory false
+                },
+                string "target" {
+                    mandatory false
+                },
+                text "startText",
+                text "firstMainText" {
+                    length 20000
+                },
+                text "secondMainText" {
+                    mandatory false
+                    length 20000
+                },
+                list "experienceOfNature" expanded {
+                    items {
+                        listItem "works like this" ( "0" ),
+                        default listItem "beauteously" ( "1" ),
+                        listItem "marvellous" ( "2" )
+                    }
+                },
+                list "levelOfDifficulty" expanded {
+                    items {
+                        listItem  "simple-minded" ( "0" ),
+                        default listItem "middle" ( "1" ),
+                        listItem  "heavy" ( "2" )
+                    }
+                },
+                list "requiredFitness" expanded {
+                    items {
+                        listItem "poor" ( "1" ),
+                        default listItem "middle" ( "2" ),
+                        listItem "high" ( "3" )
+                    }
+                },
+                list "other" multiple expanded {
+                    mandatory false
+                    items {
+                        default listItem "solid shoe" ( "0" ),
+                        listItem  "dangerous" ( "1" )
+                    }
+                },
+                datetime "endDate" nullable endDate {
+                    mandatory false
+                }
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                displayAction "Display",
+                editAction "Edit"
+            ,
+                deleteAction "Delete"
+            }
+        }
+    }
+    }

@@ -1,0 +1,8 @@
+services:
+    # Form field types
+    
+    mu_posts_module.form.type.field.multilist:
+        class: MU\PostsModule\Form\Type\Field\MultiListType
+        arguments:
+            - "@mu_posts_module.listentries_helper"
+        tags: ['form.type']

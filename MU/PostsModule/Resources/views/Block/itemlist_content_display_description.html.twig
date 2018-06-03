@@ -1,0 +1,13 @@
+{# Purpose of this template: Display contents within an external context #}
+<dl>
+    {% for content in items %}
+        <dt>{{ content|mupostsmodule_formattedTitle }}</dt>
+        {% if content.startText %}
+            <dd>{{ content.startText|striptags|truncate(200, true, '&hellip;') }}</dd>
+        {% endif %}
+        <dd><a href="{{ path('mupostsmodule_content_display', {'slug': content.slug}) }}" title="{{ __('Read more')|e('html_attr') }}">{{ __('Read more') }}</a>
+        </dd>
+    {% else %}
+        <dt>{{ __('No entries found.') }}</dt>
+    {% endfor %}
+</dl>

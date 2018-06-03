@@ -1,0 +1,14 @@
+services:
+    # Entity factory
+    mu_posts_module.entity_factory:
+        class: MU\PostsModule\Entity\Factory\EntityFactory
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "@mu_posts_module.entity_initialiser"
+            - "@mu_posts_module.collection_filter_helper"
+    
+    # Entity initialiser
+    mu_posts_module.entity_initialiser:
+        class: MU\PostsModule\Entity\Factory\EntityInitialiser
+        arguments:
+        - "@mu_posts_module.listentries_helper"

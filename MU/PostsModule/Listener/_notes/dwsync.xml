@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="GroupListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220122410051" remote="131719114800000000" Dst="2" />
+<file name="EntityLifecycleListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220123180557" remote="131719114800000000" Dst="2" />
+<file name="InstallerListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220123820991" remote="131719114800000000" Dst="2" />
+<file name="KernelListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220125111848" remote="131719114800000000" Dst="2" />
+<file name="MailerListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220126853001" remote="131719114800000000" Dst="2" />
+<file name="ModuleDispatchListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220127053134" remote="131719114800000000" Dst="2" />
+<file name="ThemeListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220128013777" remote="131719114800000000" Dst="2" />
+<file name="ThirdPartyListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220129454732" remote="131719114800000000" Dst="2" />
+<file name="UserListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220129915038" remote="131719114800000000" Dst="2" />
+<file name="UserLoginListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220131035787" remote="131719114800000000" Dst="2" />
+<file name="UserLogoutListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220132756928" remote="131719114800000000" Dst="2" />
+<file name="UserRegistrationListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220132967069" remote="131719114800000000" Dst="2" />
+<file name="UsersListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220134027804" remote="131719114800000000" Dst="2" />
+<file name="WorkflowEventsListener.php" server="homepages-mit-zikula.de/neubraunlage/" local="131719220135448753" remote="131719114800000000" Dst="2" />
+</dwsync>

@@ -1,0 +1,105 @@
+{# purpose of this template: contents view filter form #}
+{% if hasPermission('MUPostsModule:Content:', '::', 'ACCESS_EDIT') %}
+    {% form_theme quickNavForm with [
+        'bootstrap_3_layout.html.twig'
+    ] %}
+    {{ form_start(quickNavForm, {attr: {id: 'mUPostsModuleContentQuickNavForm', class: 'mupostsmodule-quicknav navbar-form', role: 'navigation'}}) }}
+    {{ form_errors(quickNavForm) }}
+    <a href="#collapseContentQuickNav" role="button" data-toggle="collapse" class="btn btn-default" aria-expanded="false" aria-controls="collapseContentQuickNav">
+        <i class="fa fa-filter" aria-hidden="true"></i> {{ __('Filter') }}
+    </a>
+    <div id="collapseContentQuickNav" class="collapse">
+        <fieldset>
+            <h3>{{ __('Quick navigation') }}</h3>
+            {% set categoriesEnabled = featureActivationHelper.isEnabled(constant('MU\\PostsModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'content') %}
+            {% if categoriesEnabled %}
+                {% if (categoryFilter is defined and categoryFilter != true) %}
+                    <div class="hidden">
+                {% else %}
+                    <div class="row">
+                        <div class="col-sm-3">
+                {% endif %}
+                    {{ form_row(quickNavForm.categories) }}
+                {% if (categoryFilter is defined and categoryFilter != true) %}
+                    </div>
+                {% else %}
+                        </div>
+                        <div class="col-sm-9">
+                {% endif %}
+            {% endif %}
+            {% if workflowStateFilter is defined and workflowStateFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.workflowState) }}
+            {% if workflowStateFilter is defined and workflowStateFilter != true %}
+                </div>
+            {% endif %}
+            {% if experienceOfNatureFilter is defined and experienceOfNatureFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.experienceOfNature) }}
+            {% if experienceOfNatureFilter is defined and experienceOfNatureFilter != true %}
+                </div>
+            {% endif %}
+            {% if levelOfDifficultyFilter is defined and levelOfDifficultyFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.levelOfDifficulty) }}
+            {% if levelOfDifficultyFilter is defined and levelOfDifficultyFilter != true %}
+                </div>
+            {% endif %}
+            {% if requiredFitnessFilter is defined and requiredFitnessFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.requiredFitness) }}
+            {% if requiredFitnessFilter is defined and requiredFitnessFilter != true %}
+                </div>
+            {% endif %}
+            {% if otherFilter is defined and otherFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.other) }}
+            {% if otherFilter is defined and otherFilter != true %}
+                </div>
+            {% endif %}
+            {% if searchFilter is defined and searchFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.q) }}
+            {% if searchFilter is defined and searchFilter != true %}
+                </div>
+            {% endif %}
+            {% if sorting is defined and sorting != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.sort) }}
+                {{ form_row(quickNavForm.sortdir) }}
+            {% if sorting is defined and sorting != true %}
+                </div>
+            {% endif %}
+            {% if pageSizeSelector is defined and pageSizeSelector != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.num) }}
+            {% if pageSizeSelector is defined and pageSizeSelector != true %}
+                </div>
+            {% endif %}
+            {% if hikingTourFilter is defined and hikingTourFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.hikingTour) }}
+            {% if hikingTourFilter is defined and hikingTourFilter != true %}
+                </div>
+            {% endif %}
+            {{ form_widget(quickNavForm.updateview) }}
+            {% if categoriesEnabled %}
+                {% if categoryFilter is defined and categoryFilter != true %}
+                {% else %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </fieldset>
+    </div>
+    {{ form_end(quickNavForm) }}
+{% endif %}

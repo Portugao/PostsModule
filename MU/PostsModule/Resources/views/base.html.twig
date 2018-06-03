@@ -1,0 +1,23 @@
+{# purpose of this template: general base layout #}
+{% block header %}
+{% endblock %}
+
+{% block appTitle %}
+    {{ moduleHeader('user', '', '', false, true, false, true) }}
+{% endblock %}
+
+{% block titleArea %}
+    <h2>{% block title %}{% endblock %}</h2>
+{% endblock %}
+{{ pageSetVar('title', block('pageTitle')|default(block('title'))) }}
+
+{{ include('@MUPostsModule/Helper/includeModerationPanel.html.twig') }}
+
+{{ showflashes() }}
+
+{% block content %}{% endblock %}
+
+{% block footer %}
+    {{ pageAddAsset('stylesheet', zasset('@MUPostsModule:css/custom.css'), 120) }}
+    {{ pageAddAsset('javascript', zasset('@MUPostsModule:js/MUPostsModule.js')) }}
+{% endblock %}

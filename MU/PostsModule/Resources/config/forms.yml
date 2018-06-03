@@ -1,0 +1,74 @@
+services:
+    # Form types
+    
+    mu_posts_module.form.type.contentquicknav:
+        class: MU\PostsModule\Form\Type\QuickNavigation\ContentQuickNavType
+        arguments:
+            - "@translator.default"
+            - "@mu_posts_module.listentries_helper"
+            - "@mu_posts_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    mu_posts_module.form.handler.common:
+        abstract: true
+        arguments:
+            - "@kernel"
+            - "@translator.default"
+            - "@form.factory"
+            - "@request_stack"
+            - "@router"
+            - "@logger"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_users_module.current_user"
+            - "@zikula_groups_module.group_application_repository"
+            - "@mu_posts_module.entity_factory"
+            - "@mu_posts_module.controller_helper"
+            - "@mu_posts_module.model_helper"
+            - "@mu_posts_module.workflow_helper"
+            - "@mu_posts_module.hook_helper"
+            - "@mu_posts_module.feature_activation_helper"
+        calls:
+            - [setLockingApi, ["@?zikula_pagelock_module.api.locking"]]
+    
+    
+    mu_posts_module.form.handler.content:
+        class: MU\PostsModule\Form\Handler\Content\EditHandler
+        parent: mu_posts_module.form.handler.common
+    
+    mu_posts_module.form.type.content:
+        class: MU\PostsModule\Form\Type\ContentType
+        arguments:
+            - "@translator.default"
+            - "@mu_posts_module.entity_factory"
+            - "@mu_posts_module.listentries_helper"
+            - "@mu_posts_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    mu_posts_module.form.type.block.itemlist:
+        class: MU\PostsModule\Block\Form\Type\ItemListBlockType
+        arguments:
+            - "@translator.default"
+        tags: ['form.type']
+    
+    mu_posts_module.form.type.block.item:
+        class: MU\PostsModule\Block\Form\Type\ItemBlockType
+        arguments:
+            - "@translator.default"
+            - "@mu_posts_module.entity_factory"
+            - "@mu_posts_module.entity_display_helper"
+        tags: ['form.type']
+    
+    mu_posts_module.form.type.contentfinder:
+        class: MU\PostsModule\Form\Type\Finder\ContentFinderType
+        arguments:
+            - "@translator.default"
+            - "@mu_posts_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    mu_posts_module.form.type.config:
+        class: MU\PostsModule\Form\Type\ConfigType
+        arguments:
+            - "@translator.default"
+            - "@mu_posts_module.listentries_helper"
+        tags: ['form.type']

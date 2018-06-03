@@ -1,0 +1,96 @@
+{# purpose of this template: contents admin display view #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : 'adminBase' %}
+{% extends 'MUPostsModule::' ~ baseTemplate ~ '.html.twig' %}
+{% block pageTitle %}{{ content|mupostsmodule_formattedTitle|default(__('Content')) }}{% endblock %}
+{% block title %}
+    {% set templateTitle = content|mupostsmodule_formattedTitle|default(__('Content')) %}
+    {{ templateTitle|notifyFilters('mupostsmodule.filter_hooks.contents.filter')|safeHtml }}{% if routeArea == 'admin' %} <small>({{ content.workflowState|mupostsmodule_objectState(false)|lower }})</small>{% endif %}
+{% endblock %}
+{% block admin_page_icon 'eye' %}
+{% block content %}
+    {% set isQuickView = app.request.query.getBoolean('raw', false) %}
+    <div class="mupostsmodule-content mupostsmodule-display">
+
+    {% set itemActions = knp_menu_get('MUPostsModule:ItemActionsMenu:menu', [], {entity: content, area: routeArea, context: 'display'}) %}
+    {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
+    <dl>
+        {% if content.workflowState is not empty and routeArea == 'admin' %}
+            <dt>{{ __('State') }}</dt>
+            <dd>{{ content.workflowState|mupostsmodule_listEntry('content', 'workflowState') }}</dd>
+        {% endif %}
+        {% if content.title is not empty %}
+            <dt>{{ __('Title') }}</dt>
+            <dd>{{ content.title }}</dd>
+        {% endif %}
+        {% if content.descriptionForGoogle is not empty %}
+            <dt>{{ __('Description for google') }}</dt>
+            <dd>{{ content.descriptionForGoogle }}</dd>
+        {% endif %}
+        {% if content.hikingTour is not empty %}
+            <dt>{{ __('Hiking tour') }}</dt>
+            <dd>{% if content.hikingTour %}
+                <i class="fa fa-check" title="{{ __('Yes') }}"></i>
+            {% else %}
+                <i class="fa fa-times" title="{{ __('No') }}"></i>
+            {% endif %}
+            </dd>
+        {% endif %}
+        {% if content.target is not empty %}
+            <dt>{{ __('Target') }}</dt>
+            <dd>{{ content.target }}</dd>
+        {% endif %}
+        {% if content.startText is not empty %}
+            <dt>{{ __('Start text') }}</dt>
+            <dd>{{ content.startText|safeHtml }}</dd>
+        {% endif %}
+        {% if content.firstMainText is not empty %}
+            <dt>{{ __('First main text') }}</dt>
+            <dd>{{ content.firstMainText|safeHtml }}</dd>
+        {% endif %}
+        {% if content.secondMainText is not empty %}
+            <dt>{{ __('Second main text') }}</dt>
+            <dd>{{ content.secondMainText|safeHtml }}</dd>
+        {% endif %}
+        {% if content.experienceOfNature is not empty %}
+            <dt>{{ __('Experience of nature') }}</dt>
+            <dd>{{ content.experienceOfNature|mupostsmodule_listEntry('content', 'experienceOfNature') }}</dd>
+        {% endif %}
+        {% if content.levelOfDifficulty is not empty %}
+            <dt>{{ __('Level of difficulty') }}</dt>
+            <dd>{{ content.levelOfDifficulty|mupostsmodule_listEntry('content', 'levelOfDifficulty') }}</dd>
+        {% endif %}
+        {% if content.requiredFitness is not empty %}
+            <dt>{{ __('Required fitness') }}</dt>
+            <dd>{{ content.requiredFitness|mupostsmodule_listEntry('content', 'requiredFitness') }}</dd>
+        {% endif %}
+        {% if content.other is not empty %}
+            <dt>{{ __('Other') }}</dt>
+            <dd>{{ content.other|mupostsmodule_listEntry('content', 'other') }}</dd>
+        {% endif %}
+        {% if content.endDate is not empty %}
+            <dt>{{ __('End date') }}</dt>
+            <dd>{% if content.endDate is not empty %}
+                {{ content.endDate|localizeddate('medium', 'short') }}
+            {% endif %}</dd>
+        {% endif %}
+        
+    </dl>
+
+    {% if featureActivationHelper.isEnabled(constant('MU\\PostsModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'content') %}
+        {{ include('@MUPostsModule/Helper/includeCategoriesDisplay.html.twig', {obj: content}) }}
+    {% endif %}
+    {{ include('@MUPostsModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: content}) }}
+
+    {{ block('display_hooks') }}
+    {% set itemActions = knp_menu_get('MUPostsModule:ItemActionsMenu:menu', [], {entity: content, area: routeArea, context: 'display'}) %}
+    {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
+</div>
+{% endblock %}
+{% block display_hooks %}
+    {% set hooks = notifyDisplayHooks(eventName='mupostsmodule.ui_hooks.contents.display_view', id=content.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}
+    {% if hooks is iterable and hooks|length > 0 %}
+        {% for area, hook in hooks %}
+            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

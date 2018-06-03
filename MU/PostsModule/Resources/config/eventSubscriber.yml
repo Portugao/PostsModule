@@ -1,0 +1,82 @@
+services:
+    # Event subscribers and listeners
+    mu_posts_module.entity_lifecycle_listener:
+        class: MU\PostsModule\Listener\EntityLifecycleListener
+        arguments:
+            - "@service_container"
+            - "@event_dispatcher"
+            - "@logger"
+        tags: ['doctrine.event_subscriber']
+    
+    mu_posts_module.kernel_listener:
+        class: MU\PostsModule\Listener\KernelListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.installer_listener:
+        class: MU\PostsModule\Listener\InstallerListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.moduledispatch_listener:
+        class: MU\PostsModule\Listener\ModuleDispatchListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.mailer_listener:
+        class: MU\PostsModule\Listener\MailerListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.theme_listener:
+        class: MU\PostsModule\Listener\ThemeListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.userlogin_listener:
+        class: MU\PostsModule\Listener\UserLoginListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.userlogout_listener:
+        class: MU\PostsModule\Listener\UserLogoutListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.user_listener:
+        class: MU\PostsModule\Listener\UserListener
+        arguments:
+            - "@translator.default"
+            - "@mu_posts_module.entity_factory"
+            - "@zikula_users_module.current_user"
+            - "@logger"
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.userregistration_listener:
+        class: MU\PostsModule\Listener\UserRegistrationListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.users_listener:
+        class: MU\PostsModule\Listener\UsersListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.group_listener:
+        class: MU\PostsModule\Listener\GroupListener
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.thirdparty_listener:
+        class: MU\PostsModule\Listener\ThirdPartyListener
+        arguments:
+            - "@filesystem"
+            - "@request_stack"
+            - "@mu_posts_module.workflow_helper"
+        tags: ['kernel.event_subscriber']
+    
+    mu_posts_module.workflow_events_listener:
+        class: MU\PostsModule\Listener\WorkflowEventsListener
+        arguments:
+            - "@zikula_permissions_module.api.permission"
+            - "@mu_posts_module.notification_helper"
+        tags: ['kernel.event_subscriber']
+    
+    stof_doctrine_extensions.listener.sluggable:
+        class: '%stof_doctrine_extensions.listener.sluggable.class%'
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ["@annotation_reader"] ]
+            - [ setTransliterator, [[MU\PostsModule\Helper\SlugTransliterator, 'transliterate']]]
+    
